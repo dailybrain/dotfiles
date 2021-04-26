@@ -11,31 +11,47 @@ main() {
     echo "debug: $0 $@"
     echo "tmpdir: ${tmpdir}"
     
-    run_chezmoi init --apply dailybrain || exit 1
+    install_chezmoi || exit 1
+    run_chezmoi init dailybrain || exit 1
+    run_chezmoi update || exit 1
+    run_chezmoi apply || exit 1
+    
+}
+
+install_chezmoi() {
+
+    if is_command chezmoi; then
+        return
+    elif is_command curl; then
+        sh -c "$(curl -fsLS git.io/chezmoi)" -- -b "${tmpdir}" || return 1
+        return
+    elif is_command wget; then
+        sh -c "$(wget -qO- git.io/chezmoi)" -- -b "${tmpdir}" || return 1
+        return
+    else
+        echo "can't find chezmoi, curl or wget :("
+    fi
+
+    return 1
 
 }
 
 run_chezmoi() {
 
-	if is_command chezmoi; then
-		chezmoi "$@" || return 1
-		return
-    elif is_command curl; then
-        sh -c "$(curl -fsLS git.io/chezmoi)" -- -b "${tmpdir}" "$@" || return 1
-		return
-    elif is_command wget; then
-        sh -c "$(wget -qO- git.io/chezmoi)" -- -b "${tmpdir}" "$@" || return 1
-		return
+    if is_command chezmoi; then
+        chezmoi "$@" || return 1
+        return
     else
-        echo "can't find chezmoi, curl or wget :("
-	fi
+        "${tmpdir}/chezmoi" "$@" || return 1
+        return
+    fi
 
     return 1
 
 }
 
 is_command() {
-	command -v "$1" >/dev/null
+    command -v "$1" >/dev/null
 }
 
 main "$@"
