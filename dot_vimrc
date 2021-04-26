@@ -58,6 +58,10 @@ set novisualbell
 set t_vb=
 set tm=500
 
+" add line numbers
+set number
+set hi LineNr ctermfg=220
+
 " Enable syntax highlighting
 syntax enable 
 
