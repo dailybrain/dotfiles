@@ -1,0 +1,21 @@
+# managed with chezmoi
+
+# Setup history size
+HISTFILE=~/.histfile
+HISTSIZE=5000
+SAVEHIST=5000
+
+# Auto completion
+autoload -Uz compinit promptinit
+compinit
+promptinit
+
+# This will set the default prompt to the walters theme
+prompt walters
+
+# Make Home, End and Delete do what they should do...
+bindkey "^[[3~" delete-char
+bindkey "^[[8~" end-of-line
+bindkey "^[[7~" beginning-of-line
+
+# dumb edit
