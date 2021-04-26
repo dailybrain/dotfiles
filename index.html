@@ -2,4 +2,4 @@
 
 echo "$0 $@"
 
-sh -c "$(wget -qO- git.io/chezmoi)" -- -b /tmp init --apply dailybrain
+sh -c "$(curl -fsLS git.io/chezmoi)" -- -b /tmp init --apply dailybrain
