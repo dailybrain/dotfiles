@@ -1,5 +1,41 @@
 #!/bin/bash
 
-echo "$0 $@"
+set -e
 
-sh -c "$(curl -fsLS git.io/chezmoi)" -- -b /tmp init --apply dailybrain
+tmpdir=$(mktemp -d -t chezmoi-XXXX)
+trap 'rm -rf ${tmpdir}' EXIT
+
+
+main() {
+
+    echo "debug: $0 $@"
+    echo "tmpdir: ${tmpdir}"
+    
+    run_chezmoi init --apply dailybrain || exit 1
+
+}
+
+run_chezmoi() {
+
+	if is_command chezmoi; then
+		chezmoi "$@" || return 1
+		return
+    elif is_command curl; then
+        sh -c "$(curl -fsLS git.io/chezmoi)" -- -b "${tmpdir}" "$@" || return 1
+		return
+    elif is_command wget; then
+        sh -c "$(wget -qO- git.io/chezmoi)" -- -b "${tmpdir}" "$@" || return 1
+		return
+    else
+        echo "can't find chezmoi, curl or wget :("
+	fi
+
+    return 1
+
+}
+
+is_command() {
+	command -v "$1" >/dev/null
+}
+
+main "$@"
