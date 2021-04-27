@@ -2,4 +2,4 @@
 
 set -eufo pipefail
 
-vim -c PlugUpdate -c qa
+vim +'PlugInstall --sync' +qa
