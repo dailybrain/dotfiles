@@ -58,7 +58,7 @@ set novisualbell
 set t_vb=
 set tm=500
 
-" add line numbers
+" Add line numbers
 set number
 
 " Enable syntax highlighting
@@ -80,3 +80,10 @@ map <leader>pp :setlocal paste!<cr>
 
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Status line
+"set laststatus=2
+
+" One Dark theme
+syntax on
+colorscheme onedark
