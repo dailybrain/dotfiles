@@ -2,4 +2,5 @@
 
 set -eufo pipefail
 
-vim +'PlugInstall --sync' +qa
+#vim +'PlugInstall --sync' +qa
+vim -E -s -u "$HOME/.vimrc" +PlugInstall +qall
