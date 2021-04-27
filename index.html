@@ -2,6 +2,8 @@
 
 set -e
 
+dotfiles=git@github.com:dailybrain/dotfiles.git
+
 tmpdir=$(mktemp -d -t chezmoi-XXXX)
 trap 'rm -rf ${tmpdir}' EXIT
 
@@ -12,7 +14,7 @@ main() {
     echo "tmpdir: ${tmpdir}"
     
     install_chezmoi || exit 1
-    run_chezmoi init dailybrain || exit 1
+    run_chezmoi init "${dotfiles}" || exit 1
     run_chezmoi update || exit 1
     run_chezmoi apply || exit 1
     
