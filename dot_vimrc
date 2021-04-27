@@ -84,6 +84,22 @@ noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 " Status line
 "set laststatus=2
 
-" One Dark theme
+" Initialize vim-plug
+call plug#begin('~/.vim/plugged')
+
+Plug 'tpope/vim-fugitive'
+
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Initialize plugin system
+call plug#end()
+
+" theme onehalf
 syntax on
-colorscheme onedark
+set t_Co=256
+set cursorline
+colorscheme onehalfdark
+let g:airline_theme='onehalfdark'
