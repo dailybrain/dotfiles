@@ -1,0 +1,72 @@
+{{- if (eq .chezmoi.osRelease.id "arch") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+pacman_packages=(
+	git
+	curl
+	vim
+	chezmoi
+	firefox
+	vlc
+	telegram-desktop
+	transmission-gtk
+	go
+	jdk
+)
+
+aur_packages=(
+	gnome-shell-extension-arch-update
+	google-chrome
+	ngrok
+	whatsapp-nativefier
+	slack-desktop
+	visual-studio-code-bin
+	intellij-idea-ultimate-edition
+	kubernetes-bin
+	kubernetes-helm
+)
+
+add_ucode_package() {
+	if (( $(cat /proc/cpuinfo | grep -i intel | wc -l) > 0 )); then
+		pacman_packages+=(intel-ucode)
+	elif (( $(cat /proc/cpuinfo | grep -i amd | wc -l) > 0 )); then
+    	pacman_packages+=(amd-ucode)
+	fi
+}
+
+install_yay() {
+
+	if is_command yay; then
+        return
+	fi
+
+	pacman -S --needed git base-devel
+    git clone https://aur.archlinux.org/yay.git "/home/${USER}/yay"
+    cd "/home/${USER}/yay" && makepkg -si --noconfirm
+    rm -rf "/home/${USER}/yay"
+
+}
+
+install_packages() {
+	sudo pacman -Sy --noconfirm ${pacman_packages[@]}
+	yay -Sy --noconfirm ${aur_packages[@]}
+}
+
+main() {
+
+    echo "install-packages.sh"
+	add_ucode_package
+	install_yay
+	install_packages
+}
+
+is_command() {
+    command -v "$1" >/dev/null
+}
+
+main
+
+{{ end }}
+
