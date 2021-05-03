@@ -6,6 +6,9 @@ NO_COLOR='\033[0m'
 
 #export PS1='[\u@\h \W]\$ '
 export PS1="[${COLOR_GREEN}\u${NO_COLOR}@${COLOR_RED}\h${NO_COLOR} ${COLOR_BLUE}\w${NO_COLOR}]\$ "
+unset COLOR_RED COLOR_GREEN COLOR_BLUE NO_COLOR
+
+export HISTSIZE=20000
 
 # pip bin
 export PATH="$PATH:$HOME/.local/bin"
