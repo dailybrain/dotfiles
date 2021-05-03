@@ -3,16 +3,13 @@
 set -eufo pipefail
 
 extensions=(
+    golang.go
+    ms-azuretools.vscode-docker
     ms-vscode-remote.remote-containers
     ms-vsliveshare.vsliveshare
-    ms-azuretools.vscode-docker
-    golang.go
-    hashicorp.terraform
-    ria.elastic
     platformio.platformio-ide
+    scalameta.metals
     vscode-icons-team.vscode-icons
-    yzhang.markdown-all-in-one
-    wayou.vscode-todo-highlight
 )
 
 for ext in ${extensions[@]}; do

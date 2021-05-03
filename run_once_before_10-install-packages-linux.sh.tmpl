@@ -4,6 +4,8 @@
 set -eufo pipefail
 
 pacman_packages=(
+	rsync
+	whois
 	git
 	curl
 	vim
@@ -15,6 +17,7 @@ pacman_packages=(
 	go
 	jdk
 	docker
+	python-pip
 )
 
 aur_packages=(
@@ -29,7 +32,12 @@ aur_packages=(
 	kubernetes-helm
 )
 
-add_ucode_package() {
+pip_packages=(
+	esptool
+	platformio
+)
+
+configure_ucode() {
 	if (( $(cat /proc/cpuinfo | grep -i intel | wc -l) > 0 )); then
 		pacman_packages+=(intel-ucode)
 	elif (( $(cat /proc/cpuinfo | grep -i amd | wc -l) > 0 )); then
@@ -44,23 +52,61 @@ install_yay() {
 	fi
 
 	pacman -S --needed git base-devel
-    git clone https://aur.archlinux.org/yay.git "/home/${USER}/yay"
-    cd "/home/${USER}/yay" && makepkg -si --noconfirm
-    rm -rf "/home/${USER}/yay"
+
+    git clone https://aur.archlinux.org/yay.git ~/yay
+	pushd ~/yay
+	makepkg -si --noconfirm
+	popd
+    rm -rf ~/yay
 
 }
 
 install_packages() {
+	
+	# pacman
 	sudo pacman -Sy --noconfirm ${pacman_packages[@]}
+	
+	# aur
 	yay -Sy --noconfirm ${aur_packages[@]}
+
+	# pip
+	for package in ${pip_packages[@]}; do
+		pip install -U ${package}
+	done
+
+}
+
+install_nvm() {
+
+	if is_command nvm; then
+        return
+	fi
+
+	git clone https://github.com/nvm-sh/nvm.git ~/.nvm
+	pushd ~/.nvm
+	git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+	popd
+
+}
+
+install gcloud() {
+
+	if is_command gcloud; then
+        return
+	fi
+
+	curl https://sdk.cloud.google.com | sudo bash -s -- --disable-prompts --install-dir=/opt
+
 }
 
 main() {
 
-    echo "install-packages.sh"
-	add_ucode_package
+	configure_ucode
 	install_yay
 	install_packages
+	install_nvm
+	install_gcloud
+	
 }
 
 is_command() {

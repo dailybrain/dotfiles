@@ -1,0 +1,23 @@
+# prompt
+COLOR_RED='\033[0;31m'
+COLOR_GREEN='\033[0;32m'
+COLOR_BLUE='\033[0;34m'
+NO_COLOR='\033[0m'
+
+#export PS1='[\u@\h \W]\$ '
+export PS1="[${COLOR_GREEN}\u${NO_COLOR}@${COLOR_RED}\h${NO_COLOR} ${COLOR_BLUE}\w${NO_COLOR}]\$ "
+
+# pip bin
+export PATH="$PATH:$HOME/.local/bin"
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# gcloud
+if [ -f '/opt/google-cloud-sdk/path.bash.inc' ]; then . '/opt/google-cloud-sdk/path.bash.inc'; fi
+if [ -f '/opt/google-cloud-sdk/completion.bash.inc' ]; then . '/opt/google-cloud-sdk/completion.bash.inc'; fi
+
+# kubectl
+if [ -x "$(command -v kubectl)" ]; then source <(kubectl completion bash); fi
