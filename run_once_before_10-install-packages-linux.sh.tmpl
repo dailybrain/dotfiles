@@ -4,6 +4,9 @@
 set -eufo pipefail
 
 pacman_packages=(
+	bc
+	jq
+	htop
 	rsync
 	whois
 	git
@@ -14,10 +17,11 @@ pacman_packages=(
 	vlc
 	telegram-desktop
 	transmission-gtk
+	jdk-openjdk
 	go
-	jdk
 	docker
 	python-pip
+	shellcheck
 )
 
 aur_packages=(
@@ -28,8 +32,6 @@ aur_packages=(
 	slack-desktop
 	visual-studio-code-bin
 	intellij-idea-ultimate-edition
-	kubernetes-bin
-	kubernetes-helm
 )
 
 pip_packages=(
@@ -38,9 +40,9 @@ pip_packages=(
 )
 
 configure_ucode() {
-	if (( $(cat /proc/cpuinfo | grep -i intel | wc -l) > 0 )); then
+	if (( $(grep -ic intel /proc/cpuinfo) > 0 )); then
 		pacman_packages+=(intel-ucode)
-	elif (( $(cat /proc/cpuinfo | grep -i amd | wc -l) > 0 )); then
+	elif (( $(grep -ic amd /proc/cpuinfo) > 0 )); then
     	pacman_packages+=(amd-ucode)
 	fi
 }
@@ -64,32 +66,28 @@ install_yay() {
 install_packages() {
 	
 	# pacman
-	sudo pacman -Sy --noconfirm ${pacman_packages[@]}
+	sudo pacman -Sy --needed --noconfirm "${pacman_packages[@]}"
 	
 	# aur
-	yay -Sy --noconfirm ${aur_packages[@]}
+	yay -Sy --needed --noconfirm "${aur_packages[@]}"
 
 	# pip
-	for package in ${pip_packages[@]}; do
-		pip install -U ${package}
+	for package in "${pip_packages[@]}"; do
+		pip install -U "${package}"
 	done
 
 }
 
 install_nvm() {
 
-	if is_command nvm; then
-        return
-	fi
-
-	git clone https://github.com/nvm-sh/nvm.git ~/.nvm
+	git clone https://github.com/nvm-sh/nvm.git ~/.nvm || true
 	pushd ~/.nvm
-	git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
+	git checkout "$(git describe --abbrev=0 --tags --match "v[0-9]*" "$(git rev-list --tags --max-count=1)")"
 	popd
 
 }
 
-install gcloud() {
+install_gcloud() {
 
 	if is_command gcloud; then
         return
