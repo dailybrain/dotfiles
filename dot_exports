@@ -21,6 +21,7 @@ export NVM_DIR="$HOME/.nvm"
 # gcloud
 if [ -f '/opt/google-cloud-sdk/path.bash.inc' ]; then . '/opt/google-cloud-sdk/path.bash.inc'; fi
 if [ -f '/opt/google-cloud-sdk/completion.bash.inc' ]; then . '/opt/google-cloud-sdk/completion.bash.inc'; fi
+export CLOUDSDK_PYTHON=python2
 
 # kubectl
 if [ -x "$(command -v kubectl)" ]; then source <(kubectl completion bash); fi
