@@ -1,5 +1,12 @@
 # history
 export HISTSIZE=20000
+export HISTFILESIZE=${HISTSIZE}
+
+# Omit duplicates and commands that begin with a space from history.
+export HISTCONTROL='ignoreboth'
+
+# editor
+export EDITOR='vim'
 
 # pip bin
 export PATH="$PATH:$HOME/.local/bin"
