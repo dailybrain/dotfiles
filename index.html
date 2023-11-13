@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
-set -e
+# -e: exit on error
+# -u: exit on unset variables
+set -eu
 
-dotfiles=git@github.com:dailybrain/dotfiles.git
+dotfiles=dailybrain
 
 tmpdir=$(mktemp -d -t chezmoi-XXXX)
 trap 'rm -rf ${tmpdir}' EXIT
@@ -14,10 +16,8 @@ main() {
     echo "tmpdir: ${tmpdir}"
     
     install_chezmoi || exit 1
-    run_chezmoi init "${dotfiles}" || exit 1
-    run_chezmoi update || exit 1
-    run_chezmoi apply || exit 1
-    
+    run_chezmoi init --apply "${dotfiles}" || exit 1
+
 }
 
 install_chezmoi() {
