@@ -2,6 +2,11 @@
 
 set -eufo pipefail
 
+# Load Homebrew
+command -v brew >/dev/null 2>&1 || \
+    echo '🐚 Loading Homebrew' && eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Brews
 {{ $brews := list
     "chezmoi"
     "curl"
@@ -12,6 +17,7 @@ set -eufo pipefail
     "jq"
     "wget" -}}
 
+# Casks
 {{ $casks := list
     "aldente"
     "firefox"
@@ -19,6 +25,7 @@ set -eufo pipefail
     "visual-studio-code"
     "vlc" -}}
 
+# Install with brew bundle
 brew bundle --no-lock --file=/dev/stdin <<EOF
 {{ range ($brews | sortAlpha | uniq) -}}
 brew "{{ . }}"
