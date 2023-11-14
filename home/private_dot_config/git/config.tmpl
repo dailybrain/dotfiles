@@ -1,0 +1,15 @@
+[user]
+	name = Vincent Spiewak
+	email = {{ .email | hexDecode }}
+[color]
+	ui = auto
+[core]
+	editor = vim
+	whitespace = trailing-space,space-before-tab
+[init]
+	defaultBranch = "main"
+[push]
+	default = current
+[url "git@github.com:dailybrain/dotfiles.git"]
+	insteadOf = https://github.com/dailybrain/dotfiles
+{{/* vim: set filetype=gitconfig: */}}
