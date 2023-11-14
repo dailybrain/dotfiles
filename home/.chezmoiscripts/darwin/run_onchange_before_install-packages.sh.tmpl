@@ -12,7 +12,8 @@ set -eufo pipefail
     "jq"
     "kubernetes-cli"
     "minikube"
-    "wget" 
+    "wget"
+    "volta" 
 -}}
 
 # Casks
@@ -21,10 +22,27 @@ set -eufo pipefail
     "docker"
     "firefox"
     "google-chrome"
-    "microsoft-teams"
     "visual-studio-code"
-    "vlc"
 -}}
+
+# Cask - Visio
+{{ $casks = concat $casks (list
+    "slack"
+    "microsoft-teams"
+) -}}
+
+# Cask - Messaging
+{{ $casks = concat $casks (list
+    "whatsapp"
+    "telegram"
+    "signal"
+) -}}
+
+# Cask - Tools
+{{ $casks = concat $casks (list
+    "transmission"
+    "vlc"
+) -}}
 
 # Load Homebrew
 command -v brew >/dev/null 2>&1 || \
