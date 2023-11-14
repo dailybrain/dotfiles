@@ -1,4 +1,16 @@
+{{/* boolean feature tags */}}
+{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
+{{- "" -}}
+
+{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
+{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
+{{-   $headless = true -}}
+{{- end -}}
+
+
 {{- $email := "767370696577616b40676d61696c2e636f6d" -}}
+
 
 [data]
     email = {{ $email | hexDecode | quote }}
+    headless = {{ $headless }}
