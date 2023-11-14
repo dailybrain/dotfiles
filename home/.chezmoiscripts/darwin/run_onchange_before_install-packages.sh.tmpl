@@ -1,10 +1,5 @@
 #!/bin/bash
-
 set -eufo pipefail
-
-# Load Homebrew
-command -v brew >/dev/null 2>&1 || \
-    echo '🐚 Loading Homebrew' && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Brews
 {{ $brews := list
@@ -17,7 +12,8 @@ command -v brew >/dev/null 2>&1 || \
     "jq"
     "kubernetes-cli"
     "minikube"
-    "wget" -}}
+    "wget" 
+-}}
 
 # Casks
 {{ $casks := list
@@ -27,7 +23,12 @@ command -v brew >/dev/null 2>&1 || \
     "google-chrome"
     "microsoft-teams"
     "visual-studio-code"
-    "vlc" -}}
+    "vlc"
+-}}
+
+# Load Homebrew
+command -v brew >/dev/null 2>&1 || \
+    echo '🐚 Loading Homebrew' && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Install with brew bundle
 brew bundle --no-lock --file=/dev/stdin <<EOF
