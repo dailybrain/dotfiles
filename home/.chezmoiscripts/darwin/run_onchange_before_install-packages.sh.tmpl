@@ -3,7 +3,6 @@ set -eufo pipefail
 
 # Brews
 {{ $brews := list
-    "chezmoi"
     "curl"
     "git"
     "git-lfs"
@@ -42,10 +41,6 @@ set -eufo pipefail
     "transmission"
     "vlc"
 ) -}}
-
-# Load Homebrew
-command -v brew >/dev/null 2>&1 || \
-    echo '🐚 Loading Homebrew' && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Install with brew bundle
 brew bundle --no-lock --file=/dev/stdin <<EOF
