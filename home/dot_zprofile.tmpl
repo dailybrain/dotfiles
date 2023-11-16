@@ -12,13 +12,6 @@ eval "$(jbang jdk java-env)"
 {{ end -}}
 
 
-{{ if stat "/opt/homebrew/bin/coursier" -}}
-# coursier
-export PATH="$PATH:/Users/vince/Library/Application Support/Coursier/bin"
-
-{{ end -}}
-
-
 {{ if stat "/opt/homebrew/bin/volta" -}}
 # volta
 export VOLTA_HOME="$HOME/.volta"
