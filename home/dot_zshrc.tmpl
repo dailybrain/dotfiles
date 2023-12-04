@@ -1,0 +1,20 @@
+# bash & zsh completion
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
+
+{{ if stat "/opt/homebrew/bin/kubectl" -}}
+# Add kubectl
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)\
+
+alias k=kubectl
+complete -o default -F __start_kubectl k
+
+{{ end -}}
+
+
+{{ if stat "/opt/homebrew/bin/jbang" -}}
+# Add JBang to environment
+alias j!=jbang
+export PATH="$HOME/.jbang/bin:$PATH"
+
+{{ end -}}
