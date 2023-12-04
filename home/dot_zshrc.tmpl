@@ -4,7 +4,7 @@ autoload -U +X compinit && compinit
 
 {{ if stat "/opt/homebrew/bin/kubectl" -}}
 # Add kubectl
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh)\
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
 alias k=kubectl
 complete -o default -F __start_kubectl k
