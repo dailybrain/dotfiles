@@ -11,6 +11,7 @@ set -eufo pipefail
     "jbang"
     "jq"
     "kubernetes-cli"
+    "helm"
     "mas"
     "minikube"
     "volta" 
@@ -33,6 +34,7 @@ set -eufo pipefail
 
 # Cask - Messaging
 {{ $casks = concat $casks (list
+    "discord"
     "whatsapp"
     "telegram"
     "signal"
