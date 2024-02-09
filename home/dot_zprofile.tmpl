@@ -18,3 +18,10 @@ export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
 {{ end -}}
+
+{{ if stat (joinPath .chezmoi.homeDir "Library/Python/3.9/bin") -}}
+# pip 
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+
+{{ end -}}
+
